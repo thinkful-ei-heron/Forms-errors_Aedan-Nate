@@ -1,15 +1,36 @@
 .sidebar-ul{
-    width:40%;
+    width:30%;
     background-color: #0b1b32;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
-    padding-top: 5%;
+    padding-top: 100px;
+    padding-right:0px;
     margin-top:0;
     margin-bottom:0;
 }
 
 .highlight {
-    background-color: #102541;
+    background-color: #0F2541;
+}
+
+li {
+    background-color:#030F1F;
+}
+
+.listItem {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 5px;
+    padding: 10px;
+    font-size:1.2rem;
+}
+
+span {
+    float:right;
+}
+
+a {
+    text-decoration:none;
 }

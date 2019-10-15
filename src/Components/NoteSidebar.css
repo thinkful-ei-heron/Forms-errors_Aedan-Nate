@@ -5,7 +5,21 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  padding-top: 5%;
   margin-top:0;
   margin-bottom:0;
+}
+.backButton {
+border-radius:50%;
+height: 70px;
+width: 70px;
+background-color: #BDBDBD;
+color:black;
+margin: 20px;
+font-size: 1rem;
+}
+
+.verticalText {
+  font-size: 1.2rem;
+  writing-mode:vertical-rl;
+  text-orientation:upright;
 }

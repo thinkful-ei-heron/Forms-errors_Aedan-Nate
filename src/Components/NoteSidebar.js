@@ -5,10 +5,10 @@ import {withRouter} from 'react-router-dom';
 function NoteSidebar(props) {
   return (
     <div className="note-sidebar">
-      <button onClick={() => props.history.goBack()}>
+      <button className="backButton" onClick={() => props.history.goBack()}>
         Back
       </button>
-      <h2>{props.folder}</h2>
+      <h2 className="verticalText">{props.folder}</h2>
     </div>
   )
 }

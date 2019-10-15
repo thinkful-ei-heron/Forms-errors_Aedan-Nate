@@ -48,7 +48,9 @@ class App extends React.Component {
     let newArray = this.state.folders.map(folder => {
       let counter = 0;
       this.state.notes.map(note => {
-        if(note.folderId === folder.id) counter++;
+        if(note.folderId === folder.id) {
+        counter++;
+      } return null;
       })
       return {
         [folder.id]:counter

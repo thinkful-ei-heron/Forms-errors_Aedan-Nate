@@ -1,3 +1,13 @@
 .note-content{
-    background-color: #102541;
+    background-color: white;
+    margin-top: 100px;
+    padding: 5px;
+}
+
+p {
+    color:black;
+}
+
+.noteLink {
+    padding: 5px;
 }
