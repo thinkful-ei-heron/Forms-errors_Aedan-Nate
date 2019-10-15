@@ -6,7 +6,7 @@ export default function HomePage(props) {
 
     return(
         <div>
-            <NoteSection notes={props.notes}/> 
+            <NoteSection noteClicked= {props.noteClicked} notes={props.notes}/> 
         </div>
     );
 }

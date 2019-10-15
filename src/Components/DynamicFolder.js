@@ -3,6 +3,6 @@ import NoteSection from './NoteSection';
 
 export default function (props) {
 return (
-<NoteSection notes={props.notes} />
+<NoteSection noteClicked={props.noteClicked} notes={props.notes} />
 )
 }
