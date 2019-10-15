@@ -52,3 +52,7 @@ button {
   border:0;
   margin-bottom: 10px;
 }
+
+.remove-button {
+  transform: rotate(-90deg);
+}
