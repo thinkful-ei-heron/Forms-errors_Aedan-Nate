@@ -16,7 +16,6 @@ class App extends React.Component {
       folder: ''
     },
     currentFolder: null,
-    noteSection: [],
     folders: store.folders,
     notes: store.notes,
     counter: {}
@@ -29,10 +28,8 @@ class App extends React.Component {
   }
 
   folderClicked = (id) => {
-    let newArray = this.state.notes.filter(note => note.folderId === id);
     this.setState({
       currentFolder:id,
-      noteSection: newArray,
     })
   }
 
@@ -115,10 +112,15 @@ class App extends React.Component {
 
           <Route 
             path='/folder/:folderId' 
-            render={() => (
+            render={({match, history, location}) => (
               <DynamicFolder 
+                match={match}
+                history={history}
+                location={location}
+                folderClicked={this.folderClicked}
                 noteClicked= {this.noteClicked} 
-                notes = {this.state.noteSection}
+                notes = {this.state.notes}
+                currentFolder={this.state.currentFolder}
               />
             )} 
           />
