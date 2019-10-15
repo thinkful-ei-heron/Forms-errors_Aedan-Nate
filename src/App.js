@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import HomePage from './Components/HomePage'
+import store from './Store'
+import SideBar from './Components/SideBar'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    sidebar: {},
+    noteSection: {},
+    folders: store.folders,
+    notes: store.notes
+  };
+
+
+  render() {
+
+    return(
+      <div className='app-div'>
+        <SideBar folders={this.state.folders}/>
+        <div className='app-second-div'>
+          <header>
+            <h1>Noteful</h1>
+          </header>
+          <HomePage folders={this.state.folders} notes={this.state.notes} />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+  color:lightgrey;
+}
+
 .App {
   text-align: center;
 }
@@ -19,4 +24,31 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.app-div {
+  display: flex;
+}
+
+.app-second-div {
+  background-color: #0b1f3a;
+  width:60%;
+}
+
+header {
+  padding:10px;
+}
+
+
+ul {
+  background-color: #102541;
+  list-style-type: none;
+  padding:10px;;
+  margin-top:0;
+}
+
+button {
+  background-color: #030f1f;
+  border:0;
+  margin-bottom: 10px;
 }
