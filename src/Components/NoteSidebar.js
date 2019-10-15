@@ -1,13 +1,16 @@
 import React from 'react';
 import './NoteSidebar.css';
+import {withRouter} from 'react-router-dom';
 
-export default function(props) {
+function NoteSidebar(props) {
   return (
     <div className="note-sidebar">
-      <button>
+      <button onClick={() => props.history.goBack()}>
         Back
       </button>
       <h2>{props.folder}</h2>
     </div>
   )
 }
+
+export default withRouter(NoteSidebar);

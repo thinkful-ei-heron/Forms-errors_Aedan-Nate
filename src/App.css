@@ -56,3 +56,7 @@ button {
 .remove-button {
   transform: rotate(-90deg);
 }
+
+.note-div {
+  display: inline-block;
+}
