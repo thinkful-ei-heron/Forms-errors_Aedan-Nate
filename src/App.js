@@ -17,8 +17,8 @@ class App extends React.Component {
       folder: ''
     },
     counter: {},
-    folders: store.folders,
-    notes: store.notes,
+    folders: [],
+    notes: [],
   };
 
   noteClicked = (id) => {
@@ -56,8 +56,36 @@ class App extends React.Component {
     });
   }
 
+  deleteNote = (noteId) => {
+    fetch(`http://localhost:9090/notes/${noteId}`, {
+      'method': 'DELETE',
+      'headers': { 'content-type': 'application/json' },
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('not found')
+      } else {
+        return res.json()
+      }
+    })
+    .then( () => {
+      const newNotes = this.state.notes.filter(itm => itm.id !== noteId)
+      this.setState({
+        notes: newNotes
+      })
+    })
+    .catch(err => console.log(err.message))
+  }
+
   componentDidMount() {
     this.folderCounter();
+    fetch('http://localhost:9090/folders')
+    .then(res => res.json())
+    .then(data => this.setState({folders: data}, () => {
+      fetch('http://localhost:9090/notes')
+      .then(res => res.json())
+      .then(data => this.setState({notes: data}))
+    }))
   }
 
   render() {
@@ -69,6 +97,7 @@ class App extends React.Component {
           contextState: this.state,
           noteClicked:this.noteClicked,
           folderCounter:this.folderCounter,
+          deleteNote: this.deleteNote
         }}>
           <Switch>
             <Route 
