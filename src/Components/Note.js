@@ -1,18 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import NotefulContext from './NotefulContext';
 
 export default function (props) {
-  let date = new Date(props.note.modified);
+  console.log(props)
   return (
-    <Link to={`/note/${props.note.id}`}>
-        <div onClick={()=> props.noteClicked(props.note.id)} className ='note-div'>
-            <h2>{props.note.name}</h2>
-            {date.toDateString()}
-        </div>
-        <button className='remove-button'>
-            Remove
-        </button>
-    </Link>
+    <NotefulContext.Consumer>
+      {({noteClicked}) => (
+          <Link to={`/note/${props.note.id}`}>
+              <div onClick={()=> noteClicked(props.note.id)} className ='note-div'>
+                  <h2>{props.note.name}</h2>
+                  {new Date(props.note.modified).toDateString()}
+              </div>
+              <button className='remove-button'>
+                  Remove
+              </button>
+          </Link>
+      )}
+    </NotefulContext.Consumer>
   )
 
 }
