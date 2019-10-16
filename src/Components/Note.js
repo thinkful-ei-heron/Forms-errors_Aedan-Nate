@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import NotefulContext from './NotefulContext';
 
 export default function (props) {
-  console.log(props)
   return (
     <NotefulContext.Consumer>
       {({noteClicked}) => (

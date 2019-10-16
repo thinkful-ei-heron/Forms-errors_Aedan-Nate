@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import HomePage from './Components/HomePage'
-import store from './Store'
-import SideBar from './Components/SideBar'
-import DynamicFolder from './Components/DynamicFolder';
+
+import store from './Store';
+import SideBar from './Components/SideBar';
 import NoteContent from './Components/NoteContent';
 import NoteSidebar from './Components/NoteSidebar';
 import {Route, Switch, Link} from 'react-router-dom';
 import NotefulContext from './Components/NotefulContext';
+import NoteSection from './Components/NoteSection';
 
 class App extends React.Component {
 
@@ -16,23 +16,10 @@ class App extends React.Component {
       note: {},
       folder: ''
     },
-    currentFolder: null,
     counter: {},
     folders: store.folders,
     notes: store.notes,
   };
-
-  resetFolder() {
-    this.setState({
-      currentFolder:null
-    })
-  }
-
-  folderClicked = (id) => {
-    this.setState({
-      currentFolder:id,
-    })
-  }
 
   noteClicked = (id) => {
     let newNote = this.state.notes.find(note => note.id === id) 
@@ -80,8 +67,6 @@ class App extends React.Component {
       <div className='app-div'>
         <NotefulContext.Provider value = {{
           contextState: this.state,
-          resetFolder: this.resetFolder,
-          folderClicked: this.folderClicked,
           noteClicked:this.noteClicked,
           folderCounter:this.folderCounter,
         }}>
@@ -93,13 +78,17 @@ class App extends React.Component {
 
             <Route 
               path='/'
-              component={SideBar}
+              render={({match}) => (
+                <SideBar 
+                  match={match}
+                />
+              )} 
             />
           </Switch>
           
           <div className='app-second-div'>
             <header>
-              <Link to="/" onClick={() => this.resetFolder()}>
+              <Link to="/">
                 <h1>Noteful</h1>
               </Link>
             </header>
@@ -107,13 +96,13 @@ class App extends React.Component {
             <Route 
               exact 
               path='/' 
-              component={HomePage} 
+              component={NoteSection} 
             />
 
             <Route 
               path='/folder/:folderId' 
               render={({match}) => (
-                <DynamicFolder 
+                <NoteSection 
                   match={match}
                 />
               )} 
@@ -121,10 +110,8 @@ class App extends React.Component {
 
             <Route 
               path='/note/:noteId' 
-              render={() => (
-                <NoteContent 
-                  noteClicked ={this.noteClicked} 
-                  currentNote={this.state.currentNote}
+              render={({match}) => (
+                <NoteContent match={match}
                 />
               )} 
             />
