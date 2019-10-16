@@ -89,8 +89,6 @@ class App extends React.Component {
   }
 
   render() {
-
-    
     return(
       <div className='app-div'>
         <NotefulContext.Provider value = {{
