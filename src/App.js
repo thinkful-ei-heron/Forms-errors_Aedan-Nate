@@ -95,7 +95,6 @@ class App extends React.Component {
               path='/'
               component={SideBar}
             />
-
           </Switch>
           
           <div className='app-second-div'>
@@ -108,13 +107,7 @@ class App extends React.Component {
             <Route 
               exact 
               path='/' 
-              render={() => (
-                <HomePage 
-                  noteClicked={this.noteClicked} 
-                  folders={this.state.folders} 
-                  notes={this.state.notes} 
-                />  
-              )} 
+              component={HomePage} 
             />
 
             <Route 
@@ -122,10 +115,6 @@ class App extends React.Component {
               render={({match}) => (
                 <DynamicFolder 
                   match={match}
-                  folderClicked={this.folderClicked}
-                  noteClicked= {this.noteClicked} 
-                  notes = {this.state.notes}
-                  currentFolder={this.state.currentFolder}
                 />
               )} 
             />

@@ -1,10 +1,31 @@
 import React from 'react';
 import NoteSection from './NoteSection';
+import NotefulContext from './NotefulContext';
 
-export default function (props) {
-    if(props.currentFolder === null) props.folderClicked(props.match.params.folderId);
-    let newArray = props.notes.filter(note => note.folderId === props.currentFolder);
+export default function DynamicFolder(props) {
+
     return (
-        <NoteSection noteClicked={props.noteClicked} notes={newArray} />
+        <NotefulContext.Consumer>
+            {(context) => {
+                console.log(context.folderClicked);
+                return <NoteSection />
+            }}
+        </NotefulContext.Consumer>
     )
+
+
+
+
+
+    // <NotefulContext.Consumer>
+    //     {({folderClicked}) => (
+    //        folderClicked(props.match.params.folderId)
+    //     )}
+    // </NotefulContext.Consumer>
+    
+    // return (
+    //     <NoteSection />
+    // )
+
+
 }
