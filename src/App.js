@@ -7,6 +7,7 @@ import DynamicFolder from './Components/DynamicFolder';
 import NoteContent from './Components/NoteContent';
 import NoteSidebar from './Components/NoteSidebar';
 import {Route, Switch, Link} from 'react-router-dom';
+import NotefulContext from './Components/NotefulContext';
 
 class App extends React.Component {
 
@@ -16,9 +17,9 @@ class App extends React.Component {
       folder: ''
     },
     currentFolder: null,
+    counter: {},
     folders: store.folders,
     notes: store.notes,
-    counter: {}
   };
 
   resetFolder() {
@@ -73,71 +74,74 @@ class App extends React.Component {
   }
 
   render() {
+
     
     return(
       <div className='app-div'>
-        <Switch>
-          <Route 
-            path='/note'
-            render={() => (
-              <NoteSidebar folder={this.state.currentNote.folder} />
-            )}
-          />
+        <NotefulContext.Provider value = {{
+          contextState: this.state,
+          resetFolder: this.resetFolder,
+          folderClicked: this.folderClicked,
+          noteClicked:this.noteClicked,
+          folderCounter:this.folderCounter,
+        }}>
+          <Switch>
+            <Route 
+              path='/note'
+              component={NoteSidebar}
+            />
 
-          <Route 
-            path='/'
-            render={() => (
-              <SideBar folders={this.state.folders} folderClicked={this.folderClicked} counter={this.state.counter} currentFolder={this.state.currentFolder}/>
-            )}
-          />
+            <Route 
+              path='/'
+              component={SideBar}
+            />
 
-        </Switch>
-        
-        <div className='app-second-div'>
-          <header>
-            <Link to="/" onClick={() => this.resetFolder()}>
-              <h1>Noteful</h1>
-            </Link>
-          </header>
+          </Switch>
+          
+          <div className='app-second-div'>
+            <header>
+              <Link to="/" onClick={() => this.resetFolder()}>
+                <h1>Noteful</h1>
+              </Link>
+            </header>
 
-          <Route 
-            exact 
-            path='/' 
-            render={() => (
-              <HomePage 
-                noteClicked={this.noteClicked} 
-                folders={this.state.folders} 
-                notes={this.state.notes} 
-              />  
-            )} 
-          />
+            <Route 
+              exact 
+              path='/' 
+              render={() => (
+                <HomePage 
+                  noteClicked={this.noteClicked} 
+                  folders={this.state.folders} 
+                  notes={this.state.notes} 
+                />  
+              )} 
+            />
 
-          <Route 
-            path='/folder/:folderId' 
-            render={({match, history, location}) => (
-              <DynamicFolder 
-                match={match}
-                history={history}
-                location={location}
-                folderClicked={this.folderClicked}
-                noteClicked= {this.noteClicked} 
-                notes = {this.state.notes}
-                currentFolder={this.state.currentFolder}
-              />
-            )} 
-          />
+            <Route 
+              path='/folder/:folderId' 
+              render={({match}) => (
+                <DynamicFolder 
+                  match={match}
+                  folderClicked={this.folderClicked}
+                  noteClicked= {this.noteClicked} 
+                  notes = {this.state.notes}
+                  currentFolder={this.state.currentFolder}
+                />
+              )} 
+            />
 
-          <Route 
-            path='/note/:noteId' 
-            render={() => (
-              <NoteContent 
-                noteClicked ={this.noteClicked} 
-                currentNote={this.state.currentNote}
-              />
-            )} 
-          />
+            <Route 
+              path='/note/:noteId' 
+              render={() => (
+                <NoteContent 
+                  noteClicked ={this.noteClicked} 
+                  currentNote={this.state.currentNote}
+                />
+              )} 
+            />
 
-        </div>
+          </div>
+        </NotefulContext.Provider>
       </div>
     );
   }
