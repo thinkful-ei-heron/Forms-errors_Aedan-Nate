@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 
-import store from './Store';
 import SideBar from './Components/SideBar';
 import NoteContent from './Components/NoteContent';
 import NoteSidebar from './Components/NoteSidebar';
@@ -9,6 +8,7 @@ import {Route, Switch, Link} from 'react-router-dom';
 import NotefulContext from './Components/NotefulContext';
 import NoteSection from './Components/NoteSection';
 import AddFolder from './Components/AddFolder';
+import AddNote from './Components/AddNote';
 
 class App extends React.Component {
 
@@ -81,6 +81,36 @@ class App extends React.Component {
     .catch(err => console.log(err));
   }
 
+  validateNote = (event) => { 
+    event.preventDefault(); 
+    let name = event.target.addNoteName.value;
+    let content = event.target.addNoteContent.value; 
+    let folderId = event.target.selectFolder.value; 
+    let date = Date.now();
+    console.log(date);
+
+    let obj = { 
+      method : 'POST', 
+      headers: { 'Content-Type' : 'application/json' }, 
+      body: JSON.stringify({ name : name , content : content, folderId : folderId, modified : date})
+    };
+    fetch(`http://localhost:9090/notes`,obj)
+    .then(res => {
+      if(!res.ok) { 
+        throw new Error('Fetch didnt work')
+      }
+      return res.json()
+    })
+    .then(jsonRes => {
+      // note array modified 
+      let noteArray = [...this.state.notes, {id: jsonRes.id, name: name, modified: date, content: content, folderId: folderId}];
+      this.setState({
+        notes: noteArray
+      });
+    })
+    .catch(err => console.log(err));
+  }
+
   deleteNote = (noteId) => {
     fetch(`http://localhost:9090/notes/${noteId}`, {
       'method': 'DELETE',
@@ -121,7 +151,8 @@ class App extends React.Component {
           noteClicked:this.noteClicked,
           folderCounter:this.folderCounter,
           deleteNote: this.deleteNote,
-          validateForm: this.validateForm
+          validateForm: this.validateForm,
+          validateNote: this.validateNote,
         }}>
           <Switch>
             <Route 
@@ -174,6 +205,12 @@ class App extends React.Component {
               path='/add-folder'
               component={AddFolder}
             />
+
+            <Route 
+              exact 
+              path='/add-note'
+              component={AddNote}
+            /> 
 
           </div>
         </NotefulContext.Provider>
