@@ -17,6 +17,8 @@ export default function Sidebar(props) {
                         </Link>
                         
                     </li>
+                   
+
                 )
             })
         )}
@@ -24,6 +26,9 @@ export default function Sidebar(props) {
     return(
         <ul className='sidebar-ul'>
             {newArray}
+            <li>
+                <Link to={'/add-folder'}>+ Folder</Link>
+            </li>
         </ul>
     );
     

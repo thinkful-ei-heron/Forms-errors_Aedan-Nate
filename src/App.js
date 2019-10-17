@@ -8,6 +8,7 @@ import NoteSidebar from './Components/NoteSidebar';
 import {Route, Switch, Link} from 'react-router-dom';
 import NotefulContext from './Components/NotefulContext';
 import NoteSection from './Components/NoteSection';
+import AddFolder from './Components/AddFolder';
 
 class App extends React.Component {
 
@@ -56,6 +57,30 @@ class App extends React.Component {
     });
   }
 
+  validateForm = (event) => {
+    event.preventDefault();
+    let input = event.target.addFolderInput.value;
+    let obj = {
+      method :'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name : input })
+    };
+    fetch(`http://localhost:9090/folders`, obj)
+    .then(res => {
+      if(!res.ok) {
+        throw new Error('Fetch didnt work')
+      }
+      return res.json()
+    })
+    .then(jsonRes => {
+      let folderArray = [...this.state.folders, {id: jsonRes.id, name: jsonRes.name}];
+      this.setState({
+        folders: folderArray
+      });
+    })
+    .catch(err => console.log(err));
+  }
+
   deleteNote = (noteId) => {
     fetch(`http://localhost:9090/notes/${noteId}`, {
       'method': 'DELETE',
@@ -95,7 +120,8 @@ class App extends React.Component {
           contextState: this.state,
           noteClicked:this.noteClicked,
           folderCounter:this.folderCounter,
-          deleteNote: this.deleteNote
+          deleteNote: this.deleteNote,
+          validateForm: this.validateForm
         }}>
           <Switch>
             <Route 
@@ -141,6 +167,12 @@ class App extends React.Component {
                 <NoteContent match={match}
                 />
               )} 
+            />
+
+            <Route
+              exact
+              path='/add-folder'
+              component={AddFolder}
             />
 
           </div>

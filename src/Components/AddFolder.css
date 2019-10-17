@@ -1,0 +1,16 @@
+form {
+    margin-top: 100px;
+}
+
+label {
+    display: block;
+}
+
+input {
+    display: block;
+    color:black;
+}
+legend {
+    font-size: 1.3rem;
+    color: white;
+}
