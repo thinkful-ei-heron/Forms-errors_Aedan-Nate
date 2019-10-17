@@ -25,7 +25,6 @@ class AddFolder extends React.Component {
                     </form>
                 )}
             </NotefulContext.Consumer>
-            
         );
     }
 }

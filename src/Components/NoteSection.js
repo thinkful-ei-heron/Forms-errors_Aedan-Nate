@@ -18,12 +18,12 @@ function NoteSection(props) {
         }}
     </NotefulContext.Consumer>
     return (
-        <ul>
-            {newArray}
-            <li key="add-note-button">
-                <button onClick={ () => props.history.push('/add-note')}>Add a Note</button>
-            </li>
-        </ul>
+        <div>
+            <ul>
+                {newArray}
+            </ul>
+            <button onClick={ () => props.history.push('/add-note')}>Add a Note</button>
+        </div>
     );
 }
 

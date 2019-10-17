@@ -9,6 +9,7 @@ import NotefulContext from './Components/NotefulContext';
 import NoteSection from './Components/NoteSection';
 import AddFolder from './Components/AddFolder';
 import AddNote from './Components/AddNote';
+import ErrorPage from './Components/ErrorPage';
 
 class App extends React.Component {
 
@@ -86,9 +87,9 @@ class App extends React.Component {
     let name = event.target.addNoteName.value;
     let content = event.target.addNoteContent.value; 
     let folderId = event.target.selectFolder.value; 
-    let date = Date.now();
-    console.log(date);
-
+    let d = Date.now()
+    let date = new Date(d).toISOString();
+    
     let obj = { 
       method : 'POST', 
       headers: { 'Content-Type' : 'application/json' }, 
@@ -102,7 +103,6 @@ class App extends React.Component {
       return res.json()
     })
     .then(jsonRes => {
-      // note array modified 
       let noteArray = [...this.state.notes, {id: jsonRes.id, name: name, modified: date, content: content, folderId: folderId}];
       this.setState({
         notes: noteArray
@@ -136,85 +136,87 @@ class App extends React.Component {
     this.folderCounter();
     fetch('http://localhost:9090/folders')
     .then(res => res.json())
-    .then(data => this.setState({folders: data}, () => {
+    .then(data => {
       fetch('http://localhost:9090/notes')
       .then(res => res.json())
-      .then(data => this.setState({notes: data}))
-    }))
+      .then(data2 => this.setState({folders: data, notes: data2}))
+    })
   }
 
   render() {
     return(
-      <div className='app-div'>
-        <NotefulContext.Provider value = {{
-          contextState: this.state,
-          noteClicked:this.noteClicked,
-          folderCounter:this.folderCounter,
-          deleteNote: this.deleteNote,
-          validateForm: this.validateForm,
-          validateNote: this.validateNote,
-        }}>
-          <Switch>
-            <Route 
-              path='/note'
-              component={NoteSidebar}
-            />
+      <ErrorPage>
+        <div className='app-div'>
+          <NotefulContext.Provider value = {{
+            contextState: this.state,
+            noteClicked:this.noteClicked,
+            folderCounter:this.folderCounter,
+            deleteNote: this.deleteNote,
+            validateForm: this.validateForm,
+            validateNote: this.validateNote,
+          }}>
+            <Switch>
+              <Route 
+                path='/note'
+                component={NoteSidebar}
+              />
 
-            <Route 
-              path='/'
-              render={({match}) => (
-                <SideBar 
-                  match={match}
-                />
-              )} 
-            />
-          </Switch>
-          
-          <div className='app-second-div'>
-            <header>
-              <Link to="/">
-                <h1>Noteful</h1>
-              </Link>
-            </header>
+              <Route 
+                path='/'
+                render={({match}) => (
+                  <SideBar 
+                    match={match}
+                  />
+                )} 
+              />
+            </Switch>
+            
+            <div className='app-second-div'>
+              <header>
+                <Link to="/">
+                  <h1>Noteful</h1>
+                </Link>
+              </header>
 
-            <Route 
-              exact 
-              path='/' 
-              component={NoteSection} 
-            />
+              <Route 
+                exact 
+                path='/' 
+                component={NoteSection} 
+              />
 
-            <Route 
-              path='/folder/:folderId' 
-              render={({match}) => (
-                <NoteSection 
-                  match={match}
-                />
-              )} 
-            />
+              <Route 
+                path='/folder/:folderId' 
+                render={({match}) => (
+                  <NoteSection 
+                    match={match}
+                  />
+                )} 
+              />
 
-            <Route 
-              path='/note/:noteId' 
-              render={({match}) => (
-                <NoteContent match={match}
-                />
-              )} 
-            />
+              <Route 
+                path='/note/:noteId' 
+                render={({match}) => (
+                  <NoteContent match={match}
+                  />
+                )} 
+              />
 
-            <Route
-              exact
-              path='/add-folder'
-              component={AddFolder}
-            />
+              <Route
+                exact
+                path='/add-folder'
+                component={AddFolder}
+              />
 
-            <Route 
-              exact 
-              path='/add-note'
-              component={AddNote}
-            /> 
+              <Route 
+                exact 
+                path='/add-note'
+                component={AddNote}
+              /> 
 
-          </div>
-        </NotefulContext.Provider>
-      </div>
+            </div>
+          </NotefulContext.Provider>
+        </div>
+      </ErrorPage>
     );
   }
 }

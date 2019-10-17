@@ -1,6 +1,7 @@
 import React from 'react';
 import NotefulContext from './NotefulContext';
 import {withRouter} from 'react-router-dom';
+import './AddNote.css'
 
 class AddNote extends React.Component { 
   render() { 
@@ -17,10 +18,11 @@ class AddNote extends React.Component {
               <input type='text' id='addNoteName' required/> 
               <label htmlFor='addNoteContent'>Content</label>
               <textarea id='addNoteContent' required></textarea>
+              <label htmlFor = 'selectFolder'>Folder</label>
               <select  id='selectFolder'>
                 {contextState.folders.map(folder => {
                 return( 
-                  <option value={folder.id}>{folder.name}</option> 
+                  <option key={folder.id} value={folder.id}>{folder.name}</option> 
                 )
                 })}
               </select> 

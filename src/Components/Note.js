@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import NotefulContext from './NotefulContext';
 import {withRouter} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function Note(props) {
   return (
@@ -29,5 +30,15 @@ function Note(props) {
   )
 
 }
+
+Note.propTypes = {
+  note: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      modified: PropTypes.string,
+      folderId: PropTypes.string,
+      content: PropTypes.string,
+  })
+};
 
 export default withRouter(Note)
